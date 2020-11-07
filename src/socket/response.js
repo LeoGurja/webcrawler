@@ -1,9 +1,10 @@
 module.exports = class Response {
-  constructor(string) {
-    this.lines = string.split(/\r\n|\r|\n/);
-    [this.httpVersion, this.statusCode, this.status] = this.lines.shift().split(/\s/)
+  constructor(buffer) {
+    this.rawData = buffer
+    this.lines = buffer.toString().split(/\r\n|\r|\n/)
+    this.parseFirstLine(this.lines.shift())
     this.parseHeaders(this.lines.splice(0, getEmptyLineIndex(this.lines)))
-    this.body = this.lines.join('\n')
+    this.body = this.lines.join('\n').trim()
   }
 
   parseHeaders(headerLines) {
@@ -12,6 +13,17 @@ module.exports = class Response {
       const [key, value] = line.split(':')
       this.headers[key] = value ? value.trim() : ''
     }
+  }
+
+  parseFirstLine(line) {
+    const [version, statusCode, ...statusStrings] = line.split(/\s/)
+    this.httpVersion = version
+    this.statusCode = parseInt(statusCode)
+    this.status = statusStrings.join(' ')
+  }
+
+  get rawBody() {
+    return this.rawData.slice(+this.headers['Content-Length'] - this.rawData.length)
   }
 }
 

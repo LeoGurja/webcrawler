@@ -1,19 +1,23 @@
 module.exports = class Uri {
   constructor(string) {
-    [this.protocol, string] = string.split('://');
-    [this.subDomain, this.domain, string] = string.split('.');
-    [this.topLevelDomain, this.path] = string.split('/')
+    if (string.match(/:\/\//)) {
+      string = string.split(/:\/\//)[1]
+    }
+
+    [this.url, ...this.path] = string.split('/')
+
+    if (this.url.match(/:/)) {
+      [this.url, this.port] = this.url.split(':')
+    } else {
+      this.port = 80
+    }
   }
 
   get uri() {
-    return `${this.protocol}://${this.subDomain}.${this.domain}.${this.topLevelDomain}/${this.path}`
-  }
-
-  get url() {
-    return `${this.subDomain}.${this.domain}.${this.topLevelDomain}`
+    return `https://${this.url}${this.routePath}`
   }
 
   get routePath() {
-    return '/' + this.path
+    return '/' + this.path.join('/')
   }
 }
