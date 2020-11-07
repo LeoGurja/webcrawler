@@ -21,3 +21,8 @@ test('should return full uri', () => {
   const uri = new Uri(testUri)
   expect(uri.uri).toBe(testUri)
 })
+
+test('should parse custom port', () => {
+  const uri = new Uri('www.google.com:5500/')
+  expect(uri.port).toBe(5500)
+})

@@ -15,7 +15,7 @@
     "typescript": "^4.0.5"
   },
   "scripts": {
-    "dev": "node src/index.js localhost:5500/",
+    "dev": "node src/index.js",
     "test": "jest --coverage"
   },
   "dependencies": {

@@ -24,8 +24,16 @@ test('should parse body', () => {
   const response = new Response(`HTTP/2.0 200 OK
 Content-Type: application/json
 
-{}
-`)
+{}`)
 
   expect(response.body).toBe('{}')
+})
+
+test('should parse rawBody', () => {
+  const response = new Response(`HTTP/1.0 200 OK
+Content-Length: 2
+Content-Type: application/json
+
+{}`)
+  expect(response.rawBody.toString()).toBe('{}')
 })

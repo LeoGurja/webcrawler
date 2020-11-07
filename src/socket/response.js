@@ -23,7 +23,7 @@ module.exports = class Response {
   }
 
   get rawBody() {
-    return this.rawData.slice(+this.headers['Content-Length'] - this.rawData.length)
+    return this.rawData.slice(this.rawData.length - parseInt(this.headers['Content-Length']))
   }
 }
 
