@@ -16,13 +16,13 @@ test('should return route path', () => {
   expect(uri.routePath).toBe('/')
 })
 
-test('should return full uri', () => {
-  const testUri = 'https://www.stackoverflow.com/'
-  const uri = new Uri(testUri)
-  expect(uri.uri).toBe(testUri)
+test('should parse custom port', () => {
+  const uri = new Uri('localhost:5500/')
+  expect(uri.url).toBe('localhost')
+  expect(uri.port).toBe(5500)
 })
 
-test('should parse custom port', () => {
-  const uri = new Uri('www.google.com:5500/')
-  expect(uri.port).toBe(5500)
+test('should ignore explicit protocol', () => {
+  const uri = new Uri('https://www.stackoverflow.com/')
+  expect(uri.url).toBe('www.stackoverflow.com')
 })

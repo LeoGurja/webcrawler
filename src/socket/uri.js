@@ -14,10 +14,6 @@ module.exports = class Uri {
     }
   }
 
-  get uri() {
-    return `https://${this.url}${this.routePath}`
-  }
-
   get routePath() {
     return '/' + this.path.join('/')
   }
